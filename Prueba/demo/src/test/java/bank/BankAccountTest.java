@@ -35,6 +35,14 @@ public class BankAccountTest {
     } 
 
     @Test
+    @DisplayName("El método withdraw debe lanzar una excepción si la cantidad a retirar es negativa")
+    public void withdraw_NegativeAmount_ThrowIllegalArgumentException(){
+        BankAccount account = new BankAccount(100);
+        int n = -50;
+        assertThrows(IllegalArgumentException.class, () -> account.withdraw(n));
+    }
+
+    @Test
     @DisplayName("El método deposit debe devolver el balance correcto tras el depósito")
     public void deposit_PositiveAmount_ReturnTrue(){
         BankAccount account = new BankAccount(100);
@@ -64,6 +72,36 @@ public class BankAccountTest {
     }
 
     @Test
+    @DisplayName("El método payment debe lanzar una excepción si el parámetro total_amount es negativo")
+    public void payment_NegativeAmount_ThrowIllegalArgumentException(){
+        BankAccount account = new BankAccount(100);
+        double total_amount = -1000;
+        double interest = 0.1;
+        int npayments = 12;
+        assertThrows(IllegalArgumentException.class, () -> account.payment(total_amount, interest, npayments));
+    }
+
+    @Test
+    @DisplayName("El método payment debe lanzar una excepción si el parámetro interest es negativo")
+    public void payment_NegativeInterest_ThrowIllegalArgumentException(){
+        BankAccount account = new BankAccount(100);
+        double total_amount = 1000;
+        double interest = -0.1;
+        int npayments = 12;
+        assertThrows(IllegalArgumentException.class, () -> account.payment(total_amount, interest, npayments));
+    }
+
+    @Test
+    @DisplayName("El método payment debe lanzar una excepción si el parámetro npayments es negativo")
+    public void payment_NegativeNPayments_ThrowIllegalArgumentException(){
+        BankAccount account = new BankAccount(100);
+        double total_amount = 1000;
+        double interest = 0.1;
+        int npayments = -12;
+        assertThrows(IllegalArgumentException.class, () -> account.payment(total_amount, interest, npayments));
+    }
+
+    @Test
     @DisplayName("El método pending debe devolver la cantidad pendiente correcta")
     public void pending_CorrectParameters_ReturnTrue(){
         BankAccount account = new BankAccount(100);
@@ -73,6 +111,61 @@ public class BankAccountTest {
         int month = 1;
         double expected = amount - (amount*(inte*Math.pow((1+inte), npayments)/(Math.pow((1+inte), npayments)-1)) - inte*amount);
         assertEquals(expected, account.pending(amount, inte, npayments, month));
+    }
+
+    @Test
+    @DisplayName("El método pending debe lanzar una excepción si alguno de los parámetros es negativo")
+    public void pending_NegativeParameters_ThrowIllegalArgumentException(){
+        BankAccount account = new BankAccount(100);
+        double amount = -1000;
+        double inte = -0.1;
+        int npayments = -12;
+        int month = -1;
+        assertThrows(IllegalArgumentException.class, () -> account.pending(amount, inte, npayments, month));
+    }
+
+    @Test
+    @DisplayName("El método pending debe lanzar una excepción si el parámetro amount es negativo")
+    public void pending_NegativeAmount_ThrowIllegalArgumentException(){
+        BankAccount account = new BankAccount(100);
+        double amount = -1000;
+        double inte = 0.1;
+        int npayments = 12;
+        int month = 1;
+        assertThrows(IllegalArgumentException.class, () -> account.pending(amount, inte, npayments, month));
+    }
+
+    @Test
+    @DisplayName("El método pending debe lanzar una excepción si el parámetro interest es negativo")
+    public void pending_NegativeInterest_ThrowIllegalArgumentException(){
+        BankAccount account = new BankAccount(100);
+        double amount = 1000;
+        double inte = -0.1;
+        int npayments = 12;
+        int month = 1;
+        assertThrows(IllegalArgumentException.class, () -> account.pending(amount, inte, npayments, month));
+    }
+
+    @Test
+    @DisplayName("El método pending debe lanzar una excepción si el parámetro npayments es negativo")
+    public void pending_NegativeNPayments_ThrowIllegalArgumentException(){
+        BankAccount account = new BankAccount(100);
+        double amount = 1000;
+        double inte = 0.1;
+        int npayments = -12;
+        int month = 1;
+        assertThrows(IllegalArgumentException.class, () -> account.pending(amount, inte, npayments, month));
+    }
+
+    @Test
+    @DisplayName("El método pending debe lanzar una excepción si el parámetro month es negativo")
+    public void pending_NegativeMonths_ThrowIllegalArgumentException(){
+        BankAccount account = new BankAccount(100);
+        double amount = 1000;
+        double inte = 0.1;
+        int npayments = 12;
+        int month = -1;
+        assertThrows(IllegalArgumentException.class, () -> account.pending(amount, inte, npayments, month));
     }
     
 }
